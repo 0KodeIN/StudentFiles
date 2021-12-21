@@ -1,15 +1,20 @@
-function SetElements() {
-    let card = document.querySelector('.container')
-    for (let i = 0; i < 18; i++) {
-        let title = document.createElement('div')
-        title.className = 'card'
-        title.innerHTML = '<p class="def">User поделился </p><img src="img/file.ico" class="file_img" alt=""> '
-        card.appendChild(title);
+// function SetElements() {
+//     let card = document.querySelector('.container')
+//     for (let i = 0; i < 18; i++) {
+//         let title = document.createElement('div')
+//         title.className = 'card'
+//         title.innerHTML = '<p class="def">User поделился </p><img src="img/file.ico" class="file_img" alt=""> '
+//         card.appendChild(title);
 
-    }
-}
-SetElements();
+//     }
+// }
+// SetElements();
 let darkLayer = document.createElement('div');
+var elements = document.getElementsByTagName('p');
+console.log(elements[1].innerHTML);
+// for (var i = 0; i < elements.length; i++) {
+//     alert(elements[i].nodeValue);
+// }
 
 function showEnter() {
 
@@ -42,11 +47,11 @@ function regulate() {
         if (e.key.match(/[0-9]/)) return e.preventDefault();
         if (e.key.match(/[" "]/)) return e.preventDefault();
     });
-    let surname_input = document.getElementById("surname-input");
-    surname_input.addEventListener('keydown', function(e) {
-        if (e.key.match(/[0-9]/)) return e.preventDefault();
-        if (e.key.match(/[" "]/)) return e.preventDefault();
-    });
+    // let surname_input = document.getElementById("surname-input");
+    // surname_input.addEventListener('keydown', function(e) {
+    //     if (e.key.match(/[0-9]/)) return e.preventDefault();
+    //     if (e.key.match(/[" "]/)) return e.preventDefault();
+    // });
 
 }
 
@@ -63,8 +68,6 @@ function showRegistr() {
         let charIndex = 0;
         let name = document.getElementsByName("Name")[0].value;
         arr.push(name);
-        let surname = document.getElementsByName("Surname")[0].value;
-        arr.push(surname);
         let email = document.getElementsByName("Email")[0].value;
         let address = email;
         if (reg.test(address) == false) {
@@ -104,12 +107,27 @@ function showRegistr() {
         if (check == 0) {
             modalWin.style.display = 'none';
             console.log(arr);
+            let registerForm = new FormData(document.getElementById('form2'));
+            fetch('/register.php', {
+                    method: 'POST',
+                    body: form2
+                })
+                .then(response => response.json())
+                .then((result) => {
+                    if (result.errors) {
+                        //вывод ошибок валидации на форму
+                    } else {
+                        //успешная регистрация, обновляем страницу
+                    }
+                })
+                .catch(error => console.log(error));
             document.getElementById("pw1").value = "";
             document.getElementById("pw2").value = "";
             let ptr = document.getElementsByClassName("test");
             for (let i = 0; i < 4; i++) {
                 document.getElementsByClassName("test")[i].value = null;
             }
+
 
 
         }
